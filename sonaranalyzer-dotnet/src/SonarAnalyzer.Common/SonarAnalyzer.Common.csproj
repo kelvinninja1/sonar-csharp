@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
@@ -19,10 +19,6 @@
     <Compile Include="Protobuf\AnalyzerReport.cs">
       <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
-    <Compile Remove="Protobuf\Ucfg.cs" />
-    <Compile Include="Protobuf\Ucfg.cs">
-      <SonarQubeExclude>true</SonarQubeExclude>
-    </Compile>
     <Compile Include="..\AssemblyInfo.Shared.cs" Link="Properties\AssemblyInfo.Shared.cs" />
     <Compile Include="..\Signing.cs" Link="Properties\Signing.cs" />
   </ItemGroup>
@@ -31,11 +27,8 @@
     <AdditionalFiles Include="..\SonarLint.xml" Link="Properties\SonarLint.xml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\..\sonar-ucfg\src\main\protobuf\ucfg.proto" Link="Protobuf\ucfg.proto" />
-  </ItemGroup>
 
-  <Target Name="GenerateProtobufClasses" BeforeTargets="PrepareForBuild" Outputs="Protobuf\AnalyzerReport.cs,Protobuf\Ucfg.cs" Inputs="Protobuf\AnalyzerReport.proto,..\..\..\sonar-ucfg\src\main\protobuf\ucfg.proto">
+  <Target Name="GenerateProtobufClasses" BeforeTargets="PrepareForBuild" Outputs="Protobuf\AnalyzerReport.cs" Inputs="Protobuf\AnalyzerReport.proto">
     <Message Importance="high" Text="Generating protobuf class..." />
     <Exec WorkingDirectory="Protobuf" Command="build.bat" />
   </Target>
