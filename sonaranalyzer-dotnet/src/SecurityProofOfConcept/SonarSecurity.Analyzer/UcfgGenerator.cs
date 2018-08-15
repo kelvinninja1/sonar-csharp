@@ -194,7 +194,7 @@ namespace SonarAnalyzer.Rules.CSharp
             projectBuildId = Path.GetFileName(configuration.ProjectOutputPath);
 
             // "<root>/.sonarqube/out/0" -> "<root>/.sonarqube/out/ucfg_cs"
-            protobufDirectory = Path.Combine(Path.GetDirectoryName(configuration.ProjectOutputPath), $"ucfg_{AnalyzerLanguage.CSharp}");
+            protobufDirectory = Path.Combine(Path.GetDirectoryName(configuration.ProjectOutputPath), $"ucfg_cs");
 
             Directory.CreateDirectory(protobufDirectory);
         }

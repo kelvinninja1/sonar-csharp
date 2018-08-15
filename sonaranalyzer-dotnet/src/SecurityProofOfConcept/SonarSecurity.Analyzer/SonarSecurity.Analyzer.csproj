@@ -33,11 +33,14 @@
     <Compile Update="Protobuf\Ucfg.cs">
       <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
+    <Compile Update="Protobuf\AnalyzerReport.cs">
+      <SonarQubeExclude>true</SonarQubeExclude>
+    </Compile>
     <Compile Update="Resources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Resources.resx" />
     <EmbeddedResource Update="Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
   </ItemGroup>
 
-  <Target Name="GenerateProtobufClasses" BeforeTargets="PrepareForBuild" Outputs="Protobuf\Ucfg.cs" Inputs="..\..\..\..\sonar-ucfg\src\main\protobuf\ucfg.proto">
+  <Target Name="GenerateProtobufClasses" BeforeTargets="PrepareForBuild" Outputs="Protobuf\Ucfg.cs,Protobuf\AnalyzerReport.cs" Inputs="..\..\..\..\sonar-ucfg\src\main\protobuf\ucfg.proto,Protobuf\AnalyzerReport.proto">
     <Message Importance="high" Text="Generating protobuf class..." />
     <Exec WorkingDirectory="Protobuf" Command="build.bat" />
   </Target>
