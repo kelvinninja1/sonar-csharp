@@ -27,7 +27,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace SonarAnalyzer.Helpers
 {
-    internal static class DiagnosticAnalyzerContextHelper
+    internal static class DiagnosticAnalyzerContextHelper2
     {
         #region Register*ActionInNonGenerated
 
