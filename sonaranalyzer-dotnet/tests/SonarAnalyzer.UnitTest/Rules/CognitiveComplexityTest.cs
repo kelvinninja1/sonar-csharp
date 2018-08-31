@@ -19,8 +19,8 @@
  */
 
 extern alias csharp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using csharp::SonarAnalyzer.Rules.CSharp;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SonarAnalyzer.UnitTest.Rules
 {
@@ -32,7 +32,15 @@ namespace SonarAnalyzer.UnitTest.Rules
         public void CognitiveComplexity()
         {
             Verifier.VerifyAnalyzer(@"TestCases\CognitiveComplexity.cs",
-                new CognitiveComplexity { Threshold = 0, PropertyThreshold = 0 });
+                new CognitiveComplexityShouldNotBeTooHigh { Threshold = 0, PropertyThreshold = 0 });
+        }
+
+        [TestMethod]
+        [TestCategory("Rule")]
+        public void CognitiveComplexity_Directives()
+        {
+            Verifier.VerifyAnalyzer(@"TestCases\CognitiveComplexity.Directives.cs",
+                new CognitiveComplexityShouldNotBeTooHigh { Threshold = 0, PropertyThreshold = 0 });
         }
 
         [TestMethod]
@@ -40,7 +48,7 @@ namespace SonarAnalyzer.UnitTest.Rules
         public void CognitiveComplexity_StackOverflow()
         {
             Verifier.VerifyAnalyzer(@"TestCases\SyntaxWalker_InsufficientExecutionStackException.cs",
-                new CognitiveComplexity { Threshold = 0, PropertyThreshold = 0 });
+                new CognitiveComplexityShouldNotBeTooHigh { Threshold = 0, PropertyThreshold = 0 });
         }
     }
 }

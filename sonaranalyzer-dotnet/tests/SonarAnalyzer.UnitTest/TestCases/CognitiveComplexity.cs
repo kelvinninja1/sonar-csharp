@@ -463,43 +463,6 @@ namespace Tests.Diagnostics
         }
     }
 
-    class RecursionsComplexity
-    {
-        void DirectRecursionComplexity()
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^ {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^ Secondary@-1 {{+1 (recursion)}}
-        {
-            DirectRecursionComplexity();
-        }
-
-        void DirectRecursionComplexity_DifferentArguments()
-        {
-            DirectRecursionComplexity_DifferentArguments(1); // This is not recursion, no complexity increase
-        }
-
-        void DirectRecursionComplexity_DifferentArguments(int arg)
-        {
-        }
-
-        void IndirectRecursionComplexity()
-        {
-            TmpIndirectRecursion();
-        }
-
-        void TmpIndirectRecursion()
-        {
-            IndirectRecursionComplexity();
-        }
-
-        void IndirectRecursionFromLocalLambda()
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Secondary@-1 {{+1 (recursion)}}
-        {
-            var act = () => IndirectRecursionFromLocalLambda();
-            act();
-        }
-    }
-
     class AndOrConditionsComplexity
     {
         void SimpleAnd()
@@ -700,6 +663,43 @@ namespace Tests.Diagnostics
                     {
                     }
                 };
+        }
+    }
+
+    class RecursionsComplexity
+    {
+        void DirectRecursionComplexity()
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^ {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^ Secondary@-1 {{+1 (recursion)}}
+        {
+            DirectRecursionComplexity();
+        }
+
+        void OverloadCallWithArgs()
+        {
+            OverloadCallWithArgs(1); // This is not recursion, no complexity increase
+        }
+
+        void OverloadCallWithArgs(int arg)
+        {
+        }
+
+        void IndirectRecursionComplexity()
+        {
+            TmpIndirectRecursion();
+        }
+
+        void TmpIndirectRecursion()
+        {
+            IndirectRecursionComplexity();
+        }
+
+        void IndirectRecursionFromLocalLambda()
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Secondary@-1 {{+1 (recursion)}}
+        {
+            var act = () => IndirectRecursionFromLocalLambda();
+            act();
         }
     }
 }

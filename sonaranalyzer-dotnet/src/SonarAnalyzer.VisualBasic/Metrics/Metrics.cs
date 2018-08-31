@@ -77,7 +77,7 @@ namespace SonarAnalyzer.Common.VisualBasic
                     IsComplexityIncreasingKind(n) ||
                     IsFunction(n));
 
-        public override int GetCognitiveComplexity(SyntaxNode node)
+        public override int GetCognitiveComplexity(SyntaxTree tree)
         {
             return 0; // Not implemented
         }

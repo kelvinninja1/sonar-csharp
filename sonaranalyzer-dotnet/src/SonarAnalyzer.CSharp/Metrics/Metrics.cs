@@ -187,11 +187,7 @@ namespace SonarAnalyzer.Metrics.CSharp
             return walker.CyclomaticComplexity;
         }
 
-        public override int GetCognitiveComplexity(SyntaxNode node)
-        {
-            var walker = new CognitiveComplexityWalker();
-            walker.Walk(node);
-            return walker.VisitEndedCorrectly ? walker.Complexity : -1;
-        }
+        public override int GetCognitiveComplexity(SyntaxTree tree) =>
+            CognitiveComplexityMetric.Process(tree).Values.Sum(x => x.Complexity);
     }
 }
