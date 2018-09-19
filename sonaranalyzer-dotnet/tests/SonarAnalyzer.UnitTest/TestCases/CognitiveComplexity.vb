@@ -350,137 +350,144 @@ Namespace Tests.Diagnostics
     End Sub
 
     Private Sub SimpleAnd() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
-      Dim a = (True AndAlso False)
-      '                       ^^ Secondary {{+1}}
+      Dim a = (True And False)
+'                   ^^^ Secondary {{+1}}
     End Sub
 
-    Private Sub SimpleOr()
-      Dim a = (True OrElse False)
-      '                       ^^ Secondary {{+1}}
+    Private Sub SimpleOr() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+      Dim a = (True Or False)
+'                   ^^ Secondary {{+1}}
     End Sub
 
     Private Sub SimpleNot()
       Dim a = Not True
     End Sub
 
-    Private Sub AndOr()
-      Dim a = ((True AndAlso False) _
-                  OrElse True)
-      '                       ^^ Secondary {{+1}}
-      '                                ^^ Secondary@-1 {{+1}}
+    Private Sub AndOr() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+      Dim a = ((True And False) Or True)
+'                    ^^^ Secondary {{+1}}
+'                               ^^ Secondary@-1 {{+1}}
     End Sub
 
-    Private Sub AndOrIf()
-      If ((a _
-                  AndAlso (b AndAlso c)) _
-                  OrElse (d _
-                  OrElse (e AndAlso f))) Then
+    Private Sub AndOrIf() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 4 to the 0 allowed.}}
+      If (a And b And c Or d Or e And f) Then
+'     ^^ Secondary {{+1}}
+'           ^^^ Secondary@-1 {{+1}}
+'                       ^^ Secondary@-2 {{+1}}
+'                                 ^^^ Secondary@-3 {{+1}}
+      End If
+    End Sub
+
+    Private Sub AndNotIf() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+      Dim res = a And Not (b And c) And d
+'                  ^^^ Secondary {{+1}}
+'                             ^^^ Secondary@-1 {{+1}}
+    End Sub
+
+    Private Sub AndOrNot1() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 3 to the 0 allowed.}}
+      Dim res = d Or a And (Not b Or Not c)
+'                 ^^ Secondary {{+1}}
+'                      ^^^ Secondary@-1 {{+1}}
+'                                 ^^ Secondary@-2 {{+1}}
+    End Sub
+
+    Private Sub AndOrNot2() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 3 to the 0 allowed.}}
+      Dim res = a And (Not b Or Not c) Or d
+'                 ^^^ Secondary {{+1}}
+'                            ^^ Secondary@-1 {{+1}}
+'                                      ^^ Secondary@-2 {{+1}}
+    End Sub
+
+    Private Sub AndNot3() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+      Dim res = a And d And Not (b And c)
+'                 ^^^ Secondary {{+1}}
+'                                  ^^^ Secondary@-1 {{+1}}
+    End Sub
+
+    Private Sub AndNotParenthesis() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+      Dim res = a And Not (((b And c)))
+'                 ^^^ Secondary {{+1}}
+'                              ^^^ Secondary@-1 {{+1}}
+    End Sub
+  End Class
+
+  Class GotoComplexity
+    Private Sub Foo() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+      GoTo Outer
+'     ^^^^ Secondary {{+1}}
+  Outer:
+      Console.WriteLine()
+    End Sub
+
+    Private Sub Bar() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 3 to the 0 allowed.}}
+      Select Case (5)
+'     ^^^^^^ Secondary {{+1}}
+        Case 1000
+          GoTo Inner
+'              ^^^^^ Secondary {{+2 (incl 1 for nesting)}}
+        Case 100
+          Inner:
+      End Select
+
+    End Sub
+  End Class
+
+  Class LambdasComplexity
+
+    Private act As Action(Of Integer) = Function(x As Integer) ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+        If (x > 5) 
+'       ^^ Secondary {{+2 (incl 1 for nesting)}}
+        End If
+      End Function
+
+    Private act As Func(Of Integer, String) = Function(x As Integer) ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+        If (x > 5) 
+'       ^^ Secondary {{+2 (incl 1 for nesting)}}
+        End If
+        Return ""
+    End Function
+
+    Private Sub SimpleFunc()
+      Dim func As Func(Of Integer, String) = Function(x As Integer)
+          Return ""
+        End Function
+    End Sub
+
+    Private Sub BlockFunc()
+      Dim func As Func(Of Integer, String)
+      Return ""
+
+    End Sub
+
+    Private Sub IfFunc()
+      Dim func As Func(Of Integer, String)
+      If (x > 0) Then
+        Return ""
+      End If
+
+      Return ""
+
+    End Sub
+
+    Private Sub SimpleAction()
+      Dim act As Action(Of String)
+      Console.Write()
+    End Sub
+
+    Private Sub BlockAction()
+      Dim func As Action(Of String)
+      Console.Write(x)
+
+    End Sub
+
+    Private Sub IfAction()
+      Dim func As Action(Of Integer)
+      If (x > 0) Then
 
       End If
 
     End Sub
 
-    Private Sub AndNotIf()
-      Dim res = (a _
-                  AndAlso (Not (b AndAlso c) _
-                  AndAlso d))
-    End Sub
-
-    Private Sub AndOrNot1()
-      Dim res = (d _
-                  OrElse (a _
-                  AndAlso (Not b _
-                  OrElse Not c)))
-      '                  ^^ Secondary {{+1}}
-    End Sub
-
-    Private Sub AndOrNot2()
-      Dim res = ((a _
-                  AndAlso (Not b _
-                  OrElse Not c)) _
-                  OrElse d)
-      '              ^^ Secondary {{+1}}
-    End Sub
-
-    Private Sub AndNot3()
-      Dim res = (a _
-                  AndAlso (d _
-                  AndAlso Not (b AndAlso c)))
-      '                      ^^ Secondary {{+1}}
-      '                                  ^^ Secondary@-1 {{+1}}
-    End Sub
-
-    Private Sub AndNotParenthesis()
-      Dim res = (a _
-                  AndAlso Not (b AndAlso c))
-      '                    ^^ Secondary {{+1}}
-    End Sub
   End Class
-  Class GotoComplexity
-
-    Private Sub Foo()
-      GoTo Outer
-  Outer:
-      Console.WriteLine()
-    End Sub
-
-    Private Sub Bar()
-      Select Case (5)
-        Case 1000
-          GoTo case
-                  100
-                  '                  ^^^^ Secondary {{+2 (incl 1 for nesting)}}
-        Case 100
-      End Select
-
-    End Sub
-  End Class
-  Class LambdasComplexity
-
-    Private act As Action(Of Integer)
-
-    Private act As Func(Of Integer, String)
-  End Class
-  UnknownUnknown
-
-  Private Sub SimpleFunc()
-    Dim func As Func(Of Integer, String)
-          ""
-      End Sub
-
-  Private Sub BlockFunc()
-    Dim func As Func(Of Integer, String)
-    Return ""
-
-  End Sub
-
-  Private Sub IfFunc()
-    Dim func As Func(Of Integer, String)
-    If (x > 0) Then
-      Return ""
-    End If
-
-    Return ""
-
-  End Sub
-
-  Private Sub SimpleAction()
-    Dim act As Action(Of String)
-    Console.Write()
-  End Sub
-
-  Private Sub BlockAction()
-    Dim func As Action(Of String)
-    Console.Write(x)
-
-  End Sub
-
-  Private Sub IfAction()
-    Dim func As Action(Of Integer)
-    If (x > 0) Then
-
-    End If
-
-  End Sub
 
 End Namespace
