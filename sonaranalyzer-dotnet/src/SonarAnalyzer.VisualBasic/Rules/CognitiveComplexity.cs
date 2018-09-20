@@ -45,8 +45,8 @@ namespace SonarAnalyzer.Rules.VisualBasic
            context.RegisterSyntaxNodeActionInNonGenerated(
                 c => CheckComplexity<MethodBlockSyntax>(c,
                     m => m,
-                    m => m.EndSubOrFunctionStatement.BlockKeyword.GetLocation(),
-                    "sub",
+                    m => m.SubOrFunctionStatement.Identifier.GetLocation(),
+                    "method",
                     Threshold),
                 SyntaxKind.SubBlock,
                 SyntaxKind.FunctionBlock);
@@ -104,7 +104,9 @@ namespace SonarAnalyzer.Rules.VisualBasic
 
             if (cognitiveWalker.Complexity > Threshold)
             {
-                context.ReportDiagnosticWhenActive(Diagnostic.Create(rule, getLocationToReport(syntax),
+                context.ReportDiagnosticWhenActive(Diagnostic.Create(
+                    rule,
+                    getLocationToReport(syntax),
                     cognitiveWalker.IncrementLocations.ToAdditionalLocations(),
                     cognitiveWalker.IncrementLocations.ToProperties(),
                     new object[] { declarationType, cognitiveWalker.Complexity, threshold }));
