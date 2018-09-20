@@ -24,8 +24,9 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.VisualBasic;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using SonarAnalyzer.Common;
 
-namespace SonarAnalyzer.Common.VisualBasic
+namespace SonarAnalyzer.Metrics.VisualBasic
 {
     public sealed class Metrics : MetricsBase
     {

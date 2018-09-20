@@ -32,7 +32,7 @@ Namespace Tests.Diagnostics
       Else
 '     ^^^^ Secondary {{+1}}
         If False Then
- '      ^^ Secondary {{+2 (incl 1 for nesting)}}
+'       ^^ Secondary {{+2 (incl 1 for nesting)}}
         End If
       End If
     End Sub
@@ -474,18 +474,22 @@ Namespace Tests.Diagnostics
 
     Private act As Action(Of Integer) = Function(x As Integer) ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
                                             If (x > 5)
-                                    '       ^^ Secondary {{+2 (incl 1 for nesting)}}
+'                                           ^^ Secondary {{+2 (incl 1 for nesting)}}
                                             End If
                                         End Function
 
     Private act As Func(Of Integer, String) = Function(x As Integer) ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
                                                 If (x > 5)
-                                        '       ^^ Secondary {{+2 (incl 1 for nesting)}}
+'                                               ^^ Secondary {{+2 (incl 1 for nesting)}}
                                                 End If
                                                 Return ""
                                             End Function
 
     Private Sub SimpleFunc()
+      Dim func = Function(num As Integer) num + 1
+    End Sub
+
+    Private Sub BlockFun()
       Dim func As Func(Of Integer, String) = Function(x As Integer)
                                               Return ""
                                             End Function
@@ -494,7 +498,7 @@ Namespace Tests.Diagnostics
     Private Sub IfFunc() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
       Dim func As Func(Of Integer, String) = Function(x As Integer)
                                                   If (x > 0) Then
-                                        '         ^^ Secondary {{+2 (incl 1 for nesting)}}
+'                                                 ^^ Secondary {{+2 (incl 1 for nesting)}}
                                                     Return ""
                                                   End If
                                                   Return ""
@@ -502,15 +506,19 @@ Namespace Tests.Diagnostics
     End Sub
 
     Private Sub SimpleAction()
-      Dim act As Action(Of String) = Sub()
-                                          Console.Write()
+      Dim act = Sub(x) Console.WriteLine(x)
+    End Sub
+
+    Private Sub BlockAction()
+      Dim act As Action(Of String) = Sub(x)
+                                          Console.Write(x)
                                      End Sub
     End Sub
 
     Private Sub IfAction() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
       Dim func As Action(Of Integer) = Sub(x As Integer)
                                           If (x > 0) Then
-                                '         ^^ Secondary {{+2 (incl 1 for nesting)}}
+'                                         ^^ Secondary {{+2 (incl 1 for nesting)}}
                                               Console.Write(x)
                                           End If
                                        End Sub

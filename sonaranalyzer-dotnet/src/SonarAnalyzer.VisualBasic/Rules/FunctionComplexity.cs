@@ -24,7 +24,6 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.VisualBasic;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using SonarAnalyzer.Common;
-using SonarAnalyzer.Common.VisualBasic;
 using SonarAnalyzer.Helpers;
 
 namespace SonarAnalyzer.Rules.VisualBasic
@@ -36,6 +35,7 @@ namespace SonarAnalyzer.Rules.VisualBasic
         private static readonly DiagnosticDescriptor rule =
             DiagnosticDescriptorBuilder.GetDescriptor(DiagnosticId, MessageFormat, RspecStrings.ResourceManager,
                 isEnabledByDefault: false);
+
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(rule);
 
         protected override void Initialize(ParameterLoadingAnalysisContext context)
@@ -65,9 +65,9 @@ namespace SonarAnalyzer.Rules.VisualBasic
         }
 
         protected override int GetComplexity(SyntaxNode node) =>
-            new Metrics(node.SyntaxTree).GetComplexity(node);
+            new Metrics.VisualBasic.Metrics(node.SyntaxTree).GetComplexity(node);
 
-        protected sealed override GeneratedCodeRecognizer GeneratedCodeRecognizer =>
+        protected override sealed GeneratedCodeRecognizer GeneratedCodeRecognizer =>
             Helpers.VisualBasic.GeneratedCodeRecognizer.Instance;
     }
 }
