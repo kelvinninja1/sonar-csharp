@@ -117,6 +117,12 @@ namespace SonarAnalyzer.Metrics.VisualBasic
             base.VisitElseStatement(node);
         }
 
+        public override void VisitBinaryConditionalExpression(BinaryConditionalExpressionSyntax node)
+        {
+            IncreaseComplexityByNestingPlusOne(node.IfKeyword);
+            VisitWithNesting(node, base.VisitBinaryConditionalExpression);
+        }
+
         public override void VisitTernaryConditionalExpression(TernaryConditionalExpressionSyntax node)
         {
             IncreaseComplexityByNestingPlusOne(node.IfKeyword);

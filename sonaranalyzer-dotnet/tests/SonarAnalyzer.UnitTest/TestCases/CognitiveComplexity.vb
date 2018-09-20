@@ -96,6 +96,7 @@ Namespace Tests.Diagnostics
 
     Private Sub NestedTernaryOperator() ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 3 to the 0 allowed.}}
       If True Then
+'     ^^ Secondary {{+1}}
           Dim t = If(Nothing, 1)
 '                 ^^ Secondary {{+2 (incl 1 for nesting)}}
       End If
@@ -154,7 +155,7 @@ Namespace Tests.Diagnostics
 
     Private Sub DoUntil() ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
       Do Until True
-'     ^^^^^^^^ Secondary {{+1}}
+'     ^^ Secondary {{+1}}
       Loop
     End Sub
 
@@ -162,7 +163,7 @@ Namespace Tests.Diagnostics
       If True Then
 '     ^^ Secondary {{+1}}
         Do Until True
-'       ^^^^^^^^ Secondary {{+2 (incl 1 for nesting)}}
+'       ^^ Secondary {{+2 (incl 1 for nesting)}}
         Loop
       End If
     End Sub
@@ -381,7 +382,7 @@ Namespace Tests.Diagnostics
 
     Private Sub AndAlsoOrElse() ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
       Dim a = (True AndAlso False) OrElse True
-'                   ^^^^^^ Secondary {{+1}}
+'                   ^^^^^^^ Secondary {{+1}}
 '                                  ^^^^^^ Secondary@-1 {{+1}}
     End Sub
 
@@ -462,7 +463,7 @@ Namespace Tests.Diagnostics
 '     ^^^^^^ Secondary {{+1}}
         Case 1000
           GoTo Inner
-'              ^^^^^ Secondary {{+2 (incl 1 for nesting)}}
+'         ^^^^ Secondary {{+2 (incl 1 for nesting)}}
         Case 100
           Inner:
       End Select
