@@ -97,18 +97,16 @@ namespace SonarAnalyzer.Metrics.VisualBasic
             }
         }
 
-        public override void VisitIfStatement(IfStatementSyntax node)
+        public override void VisitMultiLineIfBlock(MultiLineIfBlockSyntax node)
         {
-            // TODO fix if needed
-            if (node.Parent.IsKind(SyntaxKind.ElseStatement))
-            {
-                base.VisitIfStatement(node);
-            }
-            else
-            {
-                IncreaseComplexityByNestingPlusOne(node.IfKeyword);
-                VisitWithNesting(node, base.VisitIfStatement);
-            }
+            IncreaseComplexityByNestingPlusOne(node.IfStatement.IfKeyword);
+            VisitWithNesting(node, base.VisitMultiLineIfBlock);
+        }
+
+        public override void VisitElseIfStatement(ElseIfStatementSyntax node)
+        {
+            IncreaseComplexityByOne(node.ElseIfKeyword);
+            base.VisitElseIfStatement(node);
         }
 
         public override void VisitElseStatement(ElseStatementSyntax node)

@@ -240,7 +240,7 @@ Namespace Tests.Diagnostics
     End Property
 
     Private ReadOnly Property IfInProperty As String
-      Get ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+      Get ' Noncompliant {{Refactor this accessor to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
         If True Then
 '       ^^ Secondary {{+1}}
           Return "foo"
@@ -250,14 +250,14 @@ Namespace Tests.Diagnostics
     End Property
 
     Private Property IfInPropertyGetSet As String
-      Get ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+      Get ' Noncompliant {{Refactor this accessor to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
         If True Then
 '       ^^ Secondary {{+1}}
           Return "foo"
         End If
 
       End Get
-      Set ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+      Set ' Noncompliant {{Refactor this accessor to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
         If True Then
 '       ^^ Secondary {{+1}}
           Me.foo = Value
