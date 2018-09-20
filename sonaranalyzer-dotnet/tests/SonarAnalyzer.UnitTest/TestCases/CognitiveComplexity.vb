@@ -314,14 +314,18 @@ Namespace Tests.Diagnostics
 
   Class RecursionsComplexity
 
-    Private Sub DirectRecursionComplexity()
-'               ^^^^^^^^^^^^^^^^^^^^^^^^^ {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
-'               ^^^^^^^^^^^^^^^^^^^^^^^^^ Secondary@-1 {{+1 (recursion)}}
-      Me.DirectRecursionComplexity()
+    Private Sub DirectRecursionComplexityArg(ByVal arg As Integer) ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+'               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Secondary {{+1 (recursion)}}
+      DirectRecursionComplexity(arg)
+    End Sub
+
+    Private Sub DirectRecursionComplexityMe() ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+'               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ Secondary {{+1 (recursion)}}
+      Me.DirectRecursionComplexityMe()
     End Sub
 
     Private Overloads Sub DirectRecursionComplexity_DifferentArguments()
-      Me.DirectRecursionComplexity_DifferentArguments(1)
+      DirectRecursionComplexity_DifferentArguments(1)
       ' This is not recursion, no complexity increase
     End Sub
 
@@ -329,17 +333,16 @@ Namespace Tests.Diagnostics
     End Sub
 
     Private Sub IndirectRecursionComplexity()
-      Me.TmpIndirectRecursion()
+      TmpIndirectRecursion()
     End Sub
 
     Private Sub TmpIndirectRecursion()
-      Me.IndirectRecursionComplexity()
+      IndirectRecursionComplexity()
     End Sub
 
-    Private Sub IndirectRecursionFromLocalLambda()
-'               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
-'               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Secondary@-1 {{+1 (recursion)}}
-      Dim act = Function() Me.IndirectRecursionFromLocalLambda()
+    Private Sub IndirectRecursionFromLocalLambda() ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+'               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Secondary {{+1 (recursion)}}
+      Dim act = Function() IndirectRecursionFromLocalLambda()
       act
     End Sub
   End Class

@@ -86,14 +86,14 @@ namespace SonarAnalyzer.Metrics.VisualBasic
         }
     */
 
-        public override void VisitMethodStatement(MethodStatementSyntax node)
+        public override void VisitMethodBlock(MethodBlockSyntax node)
         {
-            this.currentMethod = node;
-            base.VisitMethodStatement(node);
+            this.currentMethod = node.SubOrFunctionStatement;
+            base.VisitMethodBlock(node);
 
             if (this.hasDirectRecursiveCall)
             {
-                IncreaseComplexity(node.Identifier, 1, "+1 (recursion)");
+                IncreaseComplexity(node.SubOrFunctionStatement.Identifier, 1, "+1 (recursion)");
             }
         }
 
@@ -177,7 +177,7 @@ namespace SonarAnalyzer.Metrics.VisualBasic
                 return;
             }
             if (this.currentMethod != null &&
-                node.ArgumentList.Arguments.Count == this.currentMethod.ParameterList.Parameters.Count &&
+                node.ArgumentList.Arguments.Count == this.currentMethod.ParameterList.Parameters.Count&&
                 string.Equals(identifierNameSyntax.Identifier.ValueText,
                     this.currentMethod.Identifier.ValueText, StringComparison.Ordinal))
             {
