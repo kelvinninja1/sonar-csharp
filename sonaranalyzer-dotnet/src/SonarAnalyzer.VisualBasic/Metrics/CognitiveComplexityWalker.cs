@@ -97,6 +97,8 @@ namespace SonarAnalyzer.Metrics.VisualBasic
             }
         }
 
+        // FIXME add single line if!
+
         public override void VisitMultiLineIfBlock(MultiLineIfBlockSyntax node)
         {
             IncreaseComplexityByNestingPlusOne(node.IfStatement.IfKeyword);
@@ -121,10 +123,10 @@ namespace SonarAnalyzer.Metrics.VisualBasic
             VisitWithNesting(node, base.VisitTernaryConditionalExpression);
         }
 
-        public override void VisitSelectStatement(SelectStatementSyntax node)
+        public override void VisitSelectBlock(SelectBlockSyntax node)
         {
-            IncreaseComplexityByNestingPlusOne(node.SelectKeyword);
-            VisitWithNesting(node, base.VisitSelectStatement);
+            IncreaseComplexityByNestingPlusOne(node.SelectStatement.SelectKeyword);
+            VisitWithNesting(node, base.VisitSelectBlock);
         }
 
         public override void VisitForStatement(ForStatementSyntax node)
