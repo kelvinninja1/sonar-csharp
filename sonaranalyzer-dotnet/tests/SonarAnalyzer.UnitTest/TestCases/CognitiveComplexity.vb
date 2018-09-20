@@ -139,7 +139,7 @@ Namespace Tests.Diagnostics
 
     Private Function Foreach() ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
       For Each item In Enumerable.Empty(Of Integer)
-'     ^^^^^^^^ Secondary {{+1}}
+'     ^^^ Secondary {{+1}}
       Next
     End Function
 
@@ -147,7 +147,7 @@ Namespace Tests.Diagnostics
       If True Then
 '     ^^ Secondary {{+1}}
         For Each item In Enumerable.Empty(Of Integer)
-'       ^^^^^^^^ Secondary {{+2 (incl 1 for nesting)}}
+'       ^^^ Secondary {{+2 (incl 1 for nesting)}}
         Next
       End If
     End Sub
@@ -350,8 +350,13 @@ Namespace Tests.Diagnostics
     End Sub
 
     Private Sub SimpleAnd() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
-      Dim a = (True And False)
-'                   ^^^ Secondary {{+1}}
+      Dim a = True And False
+'                  ^^^ Secondary {{+1}}
+    End Sub
+
+    Private Sub SimpleAndAlso() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+      Dim a = True AndAlso False
+'                  ^^^^^^^ Secondary {{+1}}
     End Sub
 
     Private Sub SimpleOr() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
@@ -359,14 +364,25 @@ Namespace Tests.Diagnostics
 '                   ^^ Secondary {{+1}}
     End Sub
 
+    Private Sub SimpleOrElse() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+      Dim a = (True OrElse False)
+'                   ^^^^^^ Secondary {{+1}}
+    End Sub
+
     Private Sub SimpleNot()
       Dim a = Not True
     End Sub
 
     Private Sub AndOr() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
-      Dim a = ((True And False) Or True)
-'                    ^^^ Secondary {{+1}}
-'                               ^^ Secondary@-1 {{+1}}
+      Dim a = (True And False) Or True
+'                   ^^^ Secondary {{+1}}
+'                              ^^ Secondary@-1 {{+1}}
+    End Sub
+
+    Private Sub AndAlsoOrElse() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+      Dim a = (True AndAlso False) OrElse True
+'                   ^^^^^^ Secondary {{+1}}
+'                                  ^^^^^^ Secondary@-1 {{+1}}
     End Sub
 
     Private Sub AndOrIf() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 4 to the 0 allowed.}}
@@ -378,17 +394,39 @@ Namespace Tests.Diagnostics
       End If
     End Sub
 
-    Private Sub AndNotIf() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
-      Dim res = a And Not (b And c) And d
-'                  ^^^ Secondary {{+1}}
-'                             ^^^ Secondary@-1 {{+1}}
+    Private Sub AndAlsoOrElseIf() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 4 to the 0 allowed.}}
+      If (a AndAlso b AndAlso c OrElse d OrElse e AndAlso f) Then
+'     ^^ Secondary {{+1}}
+'           ^^^^^^^ Secondary@-1 {{+1}}
+'                               ^^^^^^ Secondary@-2 {{+1}}
+'                                                 ^^^^^^^ Secondary@-3 {{+1}}
+      End If
     End Sub
 
-    Private Sub AndOrNot1() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 3 to the 0 allowed.}}
+    Private Sub AndNot() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+      Dim res = a And Not (b And c) And d
+'                 ^^^ Secondary {{+1}}
+'                            ^^^ Secondary@-1 {{+1}}
+    End Sub
+
+    Private Sub AndAlsoNot() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+      Dim res = a AndAlso Not (b AndAlso c) AndAlso d
+'                 ^^^^^^^ Secondary {{+1}}
+'                                ^^^^^^^ Secondary@-1 {{+1}}
+    End Sub
+
+    Private Sub OrAndNotOr() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 3 to the 0 allowed.}}
       Dim res = d Or a And (Not b Or Not c)
 '                 ^^ Secondary {{+1}}
 '                      ^^^ Secondary@-1 {{+1}}
 '                                 ^^ Secondary@-2 {{+1}}
+    End Sub
+
+    Private Sub OrElseAndNot() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 3 to the 0 allowed.}}
+      Dim res = d OrElse a And (Not b OrElse Not c)
+'                 ^^^^^^ Secondary {{+1}}
+'                          ^^^ Secondary@-1 {{+1}}
+'                                     ^^^^^^ Secondary@-2 {{+1}}
     End Sub
 
     Private Sub AndOrNot2() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 3 to the 0 allowed.}}
@@ -436,7 +474,7 @@ Namespace Tests.Diagnostics
 
     Private act As Action(Of Integer) = Function(x As Integer) ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
                                             If (x > 5)
-                                            '       ^^ Secondary {{+2 (incl 1 for nesting)}}
+                                    '       ^^ Secondary {{+2 (incl 1 for nesting)}}
                                             End If
                                         End Function
 
