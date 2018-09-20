@@ -435,57 +435,47 @@ Namespace Tests.Diagnostics
   Class LambdasComplexity
 
     Private act As Action(Of Integer) = Function(x As Integer) ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
-        If (x > 5) 
-'       ^^ Secondary {{+2 (incl 1 for nesting)}}
-        End If
-      End Function
+                                            If (x > 5)
+                                            '       ^^ Secondary {{+2 (incl 1 for nesting)}}
+                                            End If
+                                        End Function
 
     Private act As Func(Of Integer, String) = Function(x As Integer) ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
-        If (x > 5) 
-'       ^^ Secondary {{+2 (incl 1 for nesting)}}
-        End If
-        Return ""
-    End Function
+                                                If (x > 5)
+                                        '       ^^ Secondary {{+2 (incl 1 for nesting)}}
+                                                End If
+                                                Return ""
+                                            End Function
 
     Private Sub SimpleFunc()
       Dim func As Func(Of Integer, String) = Function(x As Integer)
-          Return ""
-        End Function
+                                              Return ""
+                                            End Function
     End Sub
 
-    Private Sub BlockFunc()
-      Dim func As Func(Of Integer, String)
-      Return ""
-
-    End Sub
-
-    Private Sub IfFunc()
-      Dim func As Func(Of Integer, String)
-      If (x > 0) Then
-        Return ""
-      End If
-
-      Return ""
-
+    Private Sub IfFunc() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+      Dim func As Func(Of Integer, String) = Function(x As Integer)
+                                                  If (x > 0) Then
+                                        '         ^^ Secondary {{+2 (incl 1 for nesting)}}
+                                                    Return ""
+                                                  End If
+                                                  Return ""
+                                             End Function
     End Sub
 
     Private Sub SimpleAction()
-      Dim act As Action(Of String)
-      Console.Write()
+      Dim act As Action(Of String) = Sub()
+                                          Console.Write()
+                                     End Sub
     End Sub
 
-    Private Sub BlockAction()
-      Dim func As Action(Of String)
-      Console.Write(x)
-
-    End Sub
-
-    Private Sub IfAction()
-      Dim func As Action(Of Integer)
-      If (x > 0) Then
-
-      End If
-
+    Private Sub IfAction() ' Noncompliant {{Refactor this destructor to reduce its Cognitive Complexity from 2 to the 0 allowed.}}
+      Dim func As Action(Of Integer) = Sub(x As Integer)
+                                          If (x > 0) Then
+                                '         ^^ Secondary {{+2 (incl 1 for nesting)}}
+                                              Console.Write(x)
+                                          End If
+                                       End Sub
     End Sub
 
   End Class
