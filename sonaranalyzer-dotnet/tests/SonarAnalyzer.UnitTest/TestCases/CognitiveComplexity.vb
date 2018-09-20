@@ -10,7 +10,7 @@ Namespace Tests.Diagnostics
 
     End Sub
 
-    Private Sub Iff() ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
+    Private Sub SimpleIf() ' Noncompliant {{Refactor this method to reduce its Cognitive Complexity from 1 to the 0 allowed.}}
       If True Then
 '     ^^ Secondary {{+1}}
       End If
